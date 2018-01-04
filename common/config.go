@@ -116,7 +116,7 @@ func DownloadableURL(original string) (string, error) {
 	if !found {
 		return "", fmt.Errorf("Unsupported URL scheme: %s", url.Scheme)
 	}
-
+	fmt.Printf("Swampy: parsed string after DownloadableURL is %s\n", url.String())
 	return url.String(), nil
 }
 
@@ -145,13 +145,17 @@ func FileExistsLocally(original string) (bool, error) {
 		if runtime.GOOS == "windows" && len(filePath) > 0 && filePath[0] == '/' {
 			filePath = filePath[1:]
 		}
+		fmt.Printf("Swampy: %#v\n", runtime.GOOS)
+		fmt.Printf("Swampy: %s\n", filePath)
 		_, err := os.Stat(filePath)
 		if err != nil {
-			err = fmt.Errorf("could not stat file %s", err)
+			err = fmt.Errorf("could not stat file: %s\n", err)
 			return fileExists, err
 		} else {
+			fmt.Printf("Swampy: in the else statement")
 			fileExists = true
 		}
 	}
+	fmt.Printf("Swampy: made it to bottom of file")
 	return fileExists, nil
 }
