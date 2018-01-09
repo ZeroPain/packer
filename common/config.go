@@ -137,14 +137,14 @@ func DownloadableURL(original string) (string, error) {
 
 func FileExistsLocally(original string) (bool, error) {
 	// original should be something like file://C:/my/path.iso
-
+	// on windows, c drive will be parsed as host if it's file://c instead of file:///c
 	fileURL, _ := url.Parse(original)
 	fileExists := false
 	fmt.Printf("Swampy: original is %s\n", original)
 	fmt.Printf("Swampy: fileURL is %#v\n", fileURL)
 
 	if fileURL.Scheme == "file" {
-		_, err := os.Stat(filePath)
+		_, err := os.Stat(fileURL.Path)
 		if err != nil {
 			err = fmt.Errorf("could not stat file: %s\n", err)
 			return fileExists, err
