@@ -138,6 +138,8 @@ func DownloadableURL(original string) (string, error) {
 func FileExistsLocally(original string) (bool, error) {
 	fileURL, _ := url.Parse(original)
 	fileExists := false
+	fmt.Printf("Swampy: original is %s\n", original)
+	fmt.Printf("Swampy: fileURL is %#v\n", fileURL)
 
 	if fileURL.Scheme == "file" {
 		// Remove forward slash on absolute Windows file URLs before processing
@@ -146,17 +148,14 @@ func FileExistsLocally(original string) (bool, error) {
 			filePath = filePath[1:]
 		}
 		fmt.Printf("Swampy: %#v\n", runtime.GOOS)
-		fmt.Printf("Swampy: %s\n", original)
 		fmt.Printf("Swampy: %s\n", filePath)
 		_, err := os.Stat(filePath)
 		if err != nil {
 			err = fmt.Errorf("could not stat file: %s\n", err)
 			return fileExists, err
 		} else {
-			fmt.Printf("Swampy: in the else statement")
 			fileExists = true
 		}
 	}
-	fmt.Printf("Swampy: made it to bottom of file")
 	return fileExists, nil
 }
