@@ -146,6 +146,7 @@ func FileExistsLocally(original string) (bool, error) {
 			filePath = filePath[1:]
 		}
 		fmt.Printf("Swampy: %#v\n", runtime.GOOS)
+		fmt.Printf("Swampy: %s\n", original)
 		fmt.Printf("Swampy: %s\n", filePath)
 		_, err := os.Stat(filePath)
 		if err != nil {
