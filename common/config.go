@@ -47,6 +47,7 @@ func ChooseString(vals ...string) string {
 // a completely valid URL. For example, the original URL might be "local/file.iso"
 // which isn't a valid URL. DownloadableURL will return "file:///local/file.iso"
 func DownloadableURL(original string) (string, error) {
+	fmt.Printf("Swampy: user input was %s\n", original)
 	if runtime.GOOS == "windows" {
 		// If the distance to the first ":" is just one character, assume
 		// we're dealing with a drive letter and thus a file path.
@@ -138,13 +139,13 @@ func DownloadableURL(original string) (string, error) {
 func FileExistsLocally(original string) (bool, error) {
 	// original should be something like file://C:/my/path.iso
 	// on windows, c drive will be parsed as host if it's file://c instead of file:///c
-	fileURL, _ := url.Parse(original)
-	fileExists := false
+	prefix = "file://"
+	filePath = strings.Replace(original, prefix, "", 1)
 	fmt.Printf("Swampy: original is %s\n", original)
-	fmt.Printf("Swampy: fileURL is %#v\n", fileURL)
+	fmt.Printf("Swampy: filePath is %#v\n", filePath)
 
 	if fileURL.Scheme == "file" {
-		_, err := os.Stat(fileURL.Path)
+		_, err := os.Stat(filePath)
 		if err != nil {
 			err = fmt.Errorf("could not stat file: %s\n", err)
 			return fileExists, err
